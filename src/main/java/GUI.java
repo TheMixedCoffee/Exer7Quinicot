@@ -1,3 +1,5 @@
+package main.java;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -5,12 +7,18 @@
  */
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.*;
 /**
  *
  * @author Monika
  */
-public class GUI extends Frame{
+public class GUI extends Frame implements ActionListener{
     public GUI(String name){
+        createGUI(name);
+    }
+    
+    public void createGUI(String name){
+        
         JFrame frame=new JFrame(name);
         JLabel l1 = new JLabel("First Name");
         l1.setBounds(25,25, 100,30); 
@@ -59,11 +67,33 @@ public class GUI extends Frame{
         frame.add(saveBtn);
         frame.setSize(400,500);
         frame.setLayout(null);
-        frame.setVisible(true);
+        frame.setVisible(true); 
+        
+        saveBtn.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                User newUser = new User();
+                newUser.setFName(fName.getText());
+                newUser.setLName(lName.getText());
+                newUser.setbDate(bDate.getText());
+                newUser.setEmail(email.getText());
+                newUser.setContactNum(contactNum.getText());
+                newUser.setAddress(address.getText());
+                
+                //dataBase.add(newUser);
+            }
+            
+        });
     }
     
     public static void main(String[] args){
         GUI addUser = new GUI("Add User");
         GUI updateUser = new GUI("Update User");
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+       
     }
 }
