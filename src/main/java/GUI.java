@@ -10,18 +10,8 @@ import javax.swing.*;
  * @author Monika
  */
 public class GUI extends Frame{
-//    private JTextField fName;
-//    private JTextField lName;
-//    private JTextField bDate;
-//    private JTextField email;
-//    private JTextField contactNum;
-//    private JTextField address;
-//    private JButton photoBtn;
-//    private JButton resetBtn;
-//    private JButton saveBtn;
-
     public GUI(String name){
-        JFrame frame=new JFrame("Add User");
+        JFrame frame=new JFrame(name);
         JLabel l1 = new JLabel("First Name");
         l1.setBounds(25,25, 100,30); 
         frame.add(l1);
