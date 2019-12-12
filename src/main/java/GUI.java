@@ -8,17 +8,88 @@ package main.java;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+
 /**
  *
  * @author Monika
  */
 public class GUI extends Frame implements ActionListener{
+    ArrayList<User> userList = new  ArrayList<User>();
+    ArrayList<User>  foundList = new ArrayList<User>();
+    JList display;
     public GUI(String name){
-        createGUI(name);
+        menuGUI(name);
+    }
+    public GUI(){
+
+    }
+
+    public void menuGUI(String name){
+        JFrame frame = new JFrame(name);
+        JButton addUserBtn = new JButton("Add User");
+        addUserBtn.setBounds(25,235,100, 30);
+        JButton searchUserBtn = new JButton("Search User");
+        searchUserBtn.setBounds(150,235,100, 30);
+        frame.add(addUserBtn);
+        frame.add(searchUserBtn);
+        frame.setSize(400,500);
+        frame.setLayout(null);
+        frame.setVisible(true);
+        addUserBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                createGUI("Add User");
+            }
+        });
+        searchUserBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                searchGUI("Search User");
+            }
+        });
+    }
+
+    public void searchGUI(String name)
+    {
+        JFrame frame = new JFrame(name);
+        JLabel l1 = new JLabel("Last Name");
+        l1.setBounds(25,25, 100,30);
+        frame.add(l1);
+        JTextField lName = new JTextField();
+        lName.setBounds(125,25, 150, 30);
+        frame.add(lName);
+        JLabel l2 = new JLabel("Contact Number");
+        JTextField contactNum = new JTextField();
+        contactNum.setBounds(125,55, 150, 30);
+        frame.add(contactNum);
+        l2.setBounds(25,55, 100,30);
+        frame.add(l2);
+        JButton searchBtn = new JButton("Search");
+        searchBtn.setBounds(25,235,100, 30);
+        frame.add(searchBtn);
+        frame.setSize(400,500);
+        frame.setLayout(null);
+        frame.setVisible(true);
+
+        searchBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(User user: userList){
+                    if(user.getLName() == lName.getText() || user.getContactNum() == contactNum.getText()){
+                        foundList.add(user);
+                    }
+                }
+                display = new JList(foundList.toArray());
+                display.setVisibleRowCount(1);
+                display.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                frame.add(display);
+            }
+        });
     }
     
     public void createGUI(String name){
-        
+
         JFrame frame=new JFrame(name);
         JLabel l1 = new JLabel("First Name");
         l1.setBounds(25,25, 100,30); 
@@ -55,10 +126,7 @@ public class GUI extends Frame implements ActionListener{
         frame.add(l6);
         JTextField address = new JTextField();
         address.setBounds(125,175, 150, 30);
-        frame.add(address);      
-        JButton photoBtn=new JButton("Upload Photo");
-        photoBtn.setBounds(25,205,125, 30);         
-        frame.add(photoBtn);
+        frame.add(address);
         JButton resetBtn=new JButton("Reset");
         resetBtn.setBounds(25,235,100, 30);         
         frame.add(resetBtn);
@@ -70,9 +138,9 @@ public class GUI extends Frame implements ActionListener{
         frame.setVisible(true); 
         
         saveBtn.addActionListener(new ActionListener(){
-
             @Override
             public void actionPerformed(ActionEvent e) {
+                boolean check = false;
                 User newUser = new User();
                 newUser.setFName(fName.getText());
                 newUser.setLName(lName.getText());
@@ -80,16 +148,20 @@ public class GUI extends Frame implements ActionListener{
                 newUser.setEmail(email.getText());
                 newUser.setContactNum(contactNum.getText());
                 newUser.setAddress(address.getText());
-                
-                //dataBase.add(newUser);
+                for(User user: userList){
+                    if(user.isUnique(newUser) == true){
+                        check = true;
+                    }
+                }
+                if(check == true) {
+                    userList.add(newUser);
+                }
             }
-            
         });
     }
     
     public static void main(String[] args){
-        GUI addUser = new GUI("Add User");
-        GUI updateUser = new GUI("Update User");
+        GUI menuGUI = new GUI("User System");
     }
 
     @Override

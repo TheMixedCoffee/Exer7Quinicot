@@ -19,8 +19,34 @@ public class User {
     private String address;
     
     public User(){
+        fName = "";
+        lName = "";
+        bDate = "";
+        email = "";
+        contactNum = "";
+        address = "";
     }
-    
+
+    public User(String fname, String lname, String bdate, String email, String contactNum, String address){
+        this.fName = fname;
+        this.lName = lname;
+        this.bDate = bdate;
+        this.email = email;
+        this.contactNum = contactNum;
+        this.address = address;
+    }
+
+    public boolean isUnique(User user) {
+        if (user == null) return true;
+        if (user instanceof User) {
+            User another = (User) user;
+            if (this.contactNum.equals(another.getContactNum())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void setFName(String name){
         this.fName = name;
     }
@@ -68,5 +94,6 @@ public class User {
     public String getAddress(){
         return this.address;
     }
+
     
 }
